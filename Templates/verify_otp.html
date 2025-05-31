@@ -1,0 +1,25 @@
+<!-- verify_otp.html -->
+{% extends "layout.html" %}
+
+{% block title %}Verify OTP – Narrify{% endblock %}
+
+{% block content %}
+<div class="hero-section fade-in" style="max-width: 500px; margin: auto;">
+  <h1 class="text-danger text-center">Email Verification</h1>
+  <p class="text-center">We’ve sent a 6-digit OTP to your email 📩<br>Please enter it below to complete your registration.</p>
+
+  <form method="post" class="mt-4">
+    <div class="mb-3">
+      <label for="otp" class="form-label">Enter OTP</label>
+      <input type="text" class="form-control form-control-dark text-center" name="otp" id="otp" maxlength="6" placeholder="e.g. 123456" required>
+    </div>
+    <div class="d-grid">
+      <button type="submit" class="btn btn-primary">✅ Verify OTP & Continue</button>
+    </div>
+  </form>
+
+  <div class="text-center mt-3">
+    <small>Didn’t receive the email? <a href="/register" class="text-danger">Try registering again</a></small>
+  </div>
+</div>
+{% endblock %}

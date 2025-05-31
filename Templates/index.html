@@ -1,0 +1,121 @@
+<!-- index.html -->
+{% extends "layout.html" %}
+
+{% block title %}Narrify – Generate Story{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+  <h1>Turn Your Image Into a Story</h1>
+  <p>Upload an image and let Narrify narrate its tale with AI.</p>
+
+  <form action="/" method="post" enctype="multipart/form-data" class="mt-4" id="uploadForm">
+    <div class="mb-3 d-flex justify-content-center">
+      <input type="file" name="image" id="imageInput" accept="image/*" class="form-control form-control-dark w-50"
+        required onchange="previewImage(this)">
+    </div>
+
+    <div class="mb-3 d-flex justify-content-center">
+      <select name="mode" class="form-select w-50 text-center"
+        style="background-color: #1b1b1b; color: #fff; border-color: #ff2c2c;">
+        <option value="story">📖 Generate Story</option>
+        <option value="description">🧠 Generate Description</option>
+      </select>
+    </div>
+    
+    <div class="mb-3 d-flex justify-content-center">
+      <select name="language" class="form-select w-50 text-center"
+        style="background-color: #1b1b1b; color: #fff; border-color: #ff2c2c;" required>
+        <option value="en">🇺🇸 English</option>
+        <option value="es">🇪🇸 Spanish</option>
+        <option value="fr">🇫🇷 French</option>
+        <option value="de">🇩🇪 German</option>
+      </select>
+    </div>
+
+
+    <div class="d-flex justify-content-center">
+      <button id="generateButton" type="submit" class="btn btn-primary btn-lg">Generate</button>
+    </div>
+  </form>
+
+
+  <div id="loadingMessage" class="text-danger fw-bold fs-5 text-center mt-3" style="display: none;">
+    <div class="spinner-border text-danger me-2" role="status"></div>
+    Generating
+  </div>
+</div>
+
+<!-- Preview: before submission -->
+<div id="previewContainer" class="fade-in cyber-preview" style="display: none;">
+  <img id="previewImage" class="img-fluid cyber-image" alt="Preview">
+  <div class="text-center mt-3">
+    <button type="button" class="btn btn-glow btn-sm" onclick="removePreview()">🗑️ Remove</button>
+  </div>
+</div>
+
+<!-- Preview: after submission -->
+{% if image_uploaded %}
+<div class="fade-in cyber-preview">
+  <img src="{{ url_for('static', filename='preview.png') }}" alt="Uploaded Image" class="img-fluid cyber-image">
+</div>
+{% endif %}
+
+
+{% if caption %}
+<div class="section-box fade-in">
+  <h4 class="text-danger">📜 Caption</h4>
+  <p>{{ caption }}</p>
+</div>
+{% endif %}
+
+{% if story %}
+<div class="section-box fade-in">
+  <h4 class="text-danger">📖 Story</h4>
+  <p>{{ story }}</p>
+</div>
+{% endif %}
+
+{% if audio %}
+<div class="section-box fade-in">
+  <h4 class="text-danger">🔊 Narration</h4>
+  <audio controls class="w-100">
+    <source src="/audio" type="audio/wav">
+    Your browser does not support the audio element.
+  </audio>
+</div>
+{% endif %}
+
+<script>
+  function previewImage(input) {
+    const file = input.files[0];
+    const previewContainer = document.getElementById("previewContainer");
+    const previewImage = document.getElementById("previewImage");
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        previewImage.src = e.target.result;
+        previewContainer.style.display = "block";
+        previewContainer.classList.add("fade-in");
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function removePreview() {
+    document.getElementById("previewImage").src = "";
+    document.getElementById("previewContainer").style.display = "none";
+    document.getElementById("imageInput").value = "";
+  }
+
+  const uploadForm = document.getElementById("uploadForm");
+  const loadingMessage = document.getElementById("loadingMessage");
+  const generateButton = document.getElementById("generateButton");
+
+  uploadForm.addEventListener("submit", function () {
+    loadingMessage.style.display = "block";
+    generateButton.disabled = true;
+    generateButton.innerText = "Generating...";
+  });
+</script>
+{% endblock %}

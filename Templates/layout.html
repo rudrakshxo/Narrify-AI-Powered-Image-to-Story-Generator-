@@ -1,0 +1,206 @@
+<!-- layout.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Narrify – AI Story Generator{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+
+
+  <!-- Bootstrap & Fonts -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --neon: #ff2c2c;
+      --bg-dark: #0e0e0e;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: #f0f0f0;
+      font-family: 'Orbitron', sans-serif;
+      padding-top: 5rem;
+    }
+
+    #bgVideo {
+      position: fixed;
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      min-height: 100%;
+      object-fit: cover;
+      z-index: -3;
+    }
+
+    .video-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(10, 10, 10, 0.85);
+      z-index: -2;
+    }
+
+    .navbar {
+      backdrop-filter: blur(10px);
+      background: rgba(15, 15, 15, 0.6) !important;
+      border-bottom: 1px solid #222;
+    }
+
+    .navbar-brand {
+      color: var(--neon) !important;
+      font-weight: bold;
+      font-size: 1.8rem;
+      text-shadow: 0 0 10px var(--neon);
+    }
+
+    .btn-primary {
+      background-color: var(--neon);
+      border: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px var(--neon);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 0 20px var(--neon);
+      transform: scale(1.05);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .hero-section {
+      background: rgba(20, 20, 20, 0.3);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 44, 44, 0.6);
+      box-shadow: 0 0 40px rgba(255, 44, 44, 0.2);
+      border-radius: 16px;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    .section-box {
+      background: rgba(22, 22, 22, 0.8);
+      border-left: 4px solid var(--neon);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-top: 2rem;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 20px rgba(255, 44, 44, 0.15);
+    }
+
+    .fade-in {
+      animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .footer {
+      color: #999;
+      text-align: center;
+      margin-top: 4rem;
+      font-size: 0.9rem;
+    }
+
+    .nav-link.text-warning {
+      cursor: pointer;
+      user-select: none;
+    }
+    .cyber-preview {
+  background: rgba(22, 22, 22, 0.8);
+  padding: 2rem;
+  border-radius: 16px;
+  border: 2px solid rgba(255, 44, 44, 0.5);
+  box-shadow: 0 0 20px rgba(255, 44, 44, 0.2);
+  backdrop-filter: blur(10px);
+  text-align: center;
+  animation: fadeIn 0.6s ease-in;
+}
+
+.cyber-image {
+  max-height: 400px;
+  border-radius: 16px;
+  border: 2px solid rgba(255, 44, 44, 0.3);
+  box-shadow: 0 0 25px rgba(255, 44, 44, 0.2);
+  transition: all 0.3s ease-in-out;
+}
+
+.cyber-image:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 30px rgba(255, 44, 44, 0.4);
+}
+
+.btn-glow {
+  color: #fff;
+  background: transparent;
+  border: 1px solid rgba(255, 44, 44, 0.7);
+  border-radius: 8px;
+  padding: 0.4rem 1.2rem;
+  box-shadow: 0 0 10px rgba(255, 44, 44, 0.3);
+  transition: 0.3s ease;
+}
+
+.btn-glow:hover {
+  background: rgba(255, 44, 44, 0.1);
+  box-shadow: 0 0 20px rgba(255, 44, 44, 0.5);
+}
+  </style>
+</head>
+<body>
+
+  <video autoplay muted loop id="bgVideo">
+    <source src="{{ url_for('static', filename='bg.mp4') }}" type="video/mp4">
+  </video>
+  <div class="video-overlay"></div>
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand" href="/">Narrify</a>
+      <div class="collapse navbar-collapse justify-content-end">
+        <ul class="navbar-nav">
+          {% if current_user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link text-warning" href="{{ url_for('dashboard') }}">
+                 Hi, {{ current_user.username }}
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-danger" href="{{ url_for('logout') }}">Logout</a>
+            </li>
+          {% else %}
+            <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+            <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-info mt-3">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <p>© 2025 Narrify  Powered by OpenChat 3.5</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

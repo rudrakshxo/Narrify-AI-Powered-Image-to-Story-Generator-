@@ -1,0 +1,33 @@
+<!-- register.html -->
+{% extends "layout.html" %}
+
+{% block title %}Register – Narrify{% endblock %}
+
+{% block content %}
+<div class="hero-section" style="max-width: 500px; margin: auto;">
+  <h1 class="text-center">Register</h1>
+  <p class="text-center">Join the storytellers’ club 🔥</p>
+
+  <form method="post" class="mt-4">
+    <div class="mb-3">
+      <label for="username" class="form-label">Username</label>
+      <input type="text" class="form-control form-control-dark" name="username" id="username" required>
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" class="form-control form-control-dark" name="email" id="email" required>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" class="form-control form-control-dark" name="password" id="password" minlength="6" required>
+      <div class="form-text text-muted">Password must be at least 6 characters</div>
+    </div>
+    <div class="d-grid">
+      <button type="submit" class="btn btn-primary">🚀 Create Account</button>
+    </div>
+  </form>
+  <div class="text-center mt-3">
+    <small>Already have an account? <a href="/login" class="text-danger">Login here</a></small>
+  </div>
+</div>
+{% endblock %}

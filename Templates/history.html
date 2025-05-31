@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block title %}My History Narrify{% endblock %}
+{% block content %}
+<div class="hero-section fade-in">
+  <h1 class="text-center text-danger">🕘 Your Story History</h1>
+  {% if history %}
+    {% for entry in history %}
+      <div class="section-box">
+        <small class="text-info">{{ entry[5] }} | Mode: {{ entry[4] }} | Language: {{ entry[3] }}</small>
+        <p><strong>Caption:</strong> {{ entry[1] }}</p>
+        <p><strong>Story:</strong> {{ entry[2] }}</p>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p class="text-center">No history found yet. Try generating a story!</p>
+  {% endif %}
+</div>
+{% endblock %}

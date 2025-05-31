@@ -1,0 +1,19 @@
+<!-- dashboard.html -->
+{% extends "layout.html" %}
+
+{% block title %}Dashboard – Narrify{% endblock %}
+
+{% block content %}
+<div class="hero-section text-center fade-in" style="max-width: 600px; margin: auto;">
+  <h1 class="text-danger">👋 Welcome, {{ user.username }}!</h1>
+  <p>This is your Narrify dashboard. From here, you can start generating stories, manage your account, or just vibe with the aesthetic ✨</p>
+
+  <div class="d-grid gap-3 mt-4">
+  <a href="{{ url_for('index') }}" class="btn btn-primary btn-lg">📖 Generate New Story</a>
+  <a href="{{ url_for('history') }}" class="btn btn-secondary">🕘 My Story History</a>
+  <a href="{{ url_for('reset_password_request') }}" class="btn btn-warning">🔐 Reset Password</a>
+  <a href="{{ url_for('logout') }}" class="btn btn-outline-danger">🚪 Logout</a>
+</div>
+
+</div>
+{% endblock %}
