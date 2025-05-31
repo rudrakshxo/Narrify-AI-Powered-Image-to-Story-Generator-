@@ -27,15 +27,3 @@ Narrify is a full-stack AI web app that transforms images into narrated stories 
 | Translation | `deep-translator` (Google Translate wrapper)     |
 
 ---
-
-## 📂 Project Structure
-Narrify/
-├── app.py # Flask backend
-├── story_utils.py # Captioning, LLM, TTS logic
-├── templates/ # Jinja2 HTML templates
-├── static/ # CSS, video, images, branding
-├── models/ # GGUF model (OpenChat 3.5)
-├── uploads/ # Temporary uploaded images
-├── users.db # SQLite user DB
-├── requirements.txt # Python dependencies
-└── README.md # This file
